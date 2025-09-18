@@ -1,0 +1,70 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Find
+      id: find
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Find
+        setup-command: ''
+        command: dotnet test --filter FullyQualifiedName~Find
+        timeout: 10
+        max-score: 1
+    - name: Count
+      id: count
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Count
+        setup-command: ''
+        command: dotnet test --filter FullyQualifiedName~Count
+        timeout: 10
+        max-score: 1
+    - name: FindWithRange
+      id: findwithrange
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FindWithRange
+        setup-command: ''
+        command: dotnet test --filter FullyQualifiedName~FindWithRange
+        timeout: 10
+        max-score: 1
+    - name: CountWithRange
+      id: countwithrange
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: CountWithRange
+        setup-command: ''
+        command: dotnet test --filter FullyQualifiedName~CountWithRange
+        timeout: 10
+        max-score: 1
+    - name: dotnet test --filter FullyQualifiedName~AreEqual
+      id: dotnet-test-filter-fullyqualifiedname-areequal
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: dotnet test --filter FullyQualifiedName~AreEqual
+        setup-command: ''
+        command: dotnet test --filter FullyQualifiedName~AreEqual
+        timeout: 10
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        FIND_RESULTS: "${{steps.find.outputs.result}}"
+        COUNT_RESULTS: "${{steps.count.outputs.result}}"
+        FINDWITHRANGE_RESULTS: "${{steps.findwithrange.outputs.result}}"
+        COUNTWITHRANGE_RESULTS: "${{steps.countwithrange.outputs.result}}"
+        DOTNET-TEST-FILTER-FULLYQUALIFIEDNAME-AREEQUAL_RESULTS: "${{steps.dotnet-test-filter-fullyqualifiedname-areequal.outputs.result}}"
+      with:
+        runners: find,count,findwithrange,countwithrange,dotnet-test-filter-fullyqualifiedname-areequal
