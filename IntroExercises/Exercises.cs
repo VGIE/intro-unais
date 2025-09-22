@@ -25,6 +25,9 @@ namespace IntroExercises
         public static int Count(int[] array, int value)
         {
             int contador=0;
+            if(array==null){
+                return 0;
+            }
             for(int i=0;i<array.length;i++){
                 if(array[i]==value){
                    contador++;
@@ -38,7 +41,15 @@ namespace IntroExercises
         //-1 if endIndex is less than startIndex or any of them is outside the array
         public static int Find(int[] array, int value, int startIndex, int endIndex)
         {
-            return 0;
+            if(startIndex>endIndex){
+                return -1;
+            }
+            for(int i=startIndex;i<endIndex;i++){
+                if(array[i]==value){
+                   return i;
+                }
+            }
+            return -1;
         }
 
         //TODO #4
@@ -47,7 +58,19 @@ namespace IntroExercises
 
         public static int Count(int[] array, int value, int startIndex, int endIndex)
         {
-            return 0;
+            int contador=0;
+            if(startIndex>endIndex){
+                return 0;
+            }
+            if(array==null){
+                return 0;
+            }
+            for(int i=startIndex;i<endIndex;i++){
+                if(array[i]==value){
+                   contador++;
+                }
+            }
+            return contador;
         }
 
         //TODO #5
