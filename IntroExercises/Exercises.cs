@@ -83,7 +83,12 @@ namespace IntroExercises
         //  AreEqual(null, null) => false
         public static bool AreEqual(int[] A, int[] B)
         {
-            return true;
+            for(int i=0;i<A.length;i++){
+                if(Count(A,A[i])==Count(B,B[i])&& A.length==B.length){
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
